@@ -67,12 +67,15 @@ public class Touch : MonoBehaviour
                 var FI = touch.fingerId;
 
 
+                
+
                 //さらに、触れている指が今どんな状態なのか、Phaseで取得。
                 //その状態に応じて、switchで分岐させ、その時に何をさせたいかを記述する。
                 switch (touch.phase)
                 {
+                    // 画面に指が触れた時(触れている時)に行いたい処理をここに書く
                     case TouchPhase.Began:
-                        // 画面に指が触れた時に行いたい処理をここに書く
+                        
                         // _fingerId1に-1(初期値)が割り振られていなければ、
                         // 割り振りたいのでこのifになる
                         if (_fingerId1 == -1)
@@ -82,46 +85,122 @@ public class Touch : MonoBehaviour
                             //_fingerId1に割り振られた。
                             _fingerId1 = FI;
 
-                            //左フリッパーを動かす
-                            if (tag == "LeftFripperTag")
-                            {
-                                SetAngle(this.flickAngle);
-                            }
-                            
-                            //　スマホ操作はユニティリモートが使用可能になるまで保留中です　//
-
-
-
-
-
-
                         } else if (_fingerId2 == -1)//_fingerId1が割り振られているなら、2本目に割り振る。
                         {
                             //同じく、これで2本目の指に割り振られた。
                             _fingerId2 = FI;
+
                         }//三本目以降は、何もしない。
+
+                        //このFIを代入された「_fingerId1」をどうやって条件に使うのか？
+                        //・・・・・・・
+
+
+
+
+                        //このifは、「座標xがスクリーンの2分の1以上の場合」という意味。
+                        //このifのtrueが右側の処理、false(else)が左側の処理を書き込む場所となる。
+                        if (Input.mousePosition.x >= Screen.width / 2)
+                        {
+
+
+
+                            if ((_fingerId1 != -1) && (_fingerId2 == -1 ) && (tag == "RightFripperTag"))
+                            { 
+                                SetAngle(this.flickAngle);
+                               
+                            }
+                            if ((_fingerId1 != -1) && (_fingerId2 != -1) && (tag == "RightFripperTag"))
+                                {
+                                SetAngle(this.flickAngle);
+
+                            }
+
+
+                        }
+                        else
+                        {
+                                if ((_fingerId1 != -1) && (_fingerId2 == -1) && (tag == "LeftFripperTag"))
+                                {
+                                    SetAngle(this.flickAngle);
+
+                                }
+                                if ((_fingerId1 != -1) && (_fingerId2 != -1) && (tag == "LeftFripperTag"))
+                                {
+                                    SetAngle(this.flickAngle);
+
+                                }
+                            }
+
+
+
                         break;
+
+                    // 画面上で指が動いたときに行いたい処理をここに書く
                     case TouchPhase.Moved:
-                        // 画面上で指が動いたときに行いたい処理をここに書く
+                        
                         break;
+
+                    // 指が画面に触れているが動いてはいない時に行いたい処理をここに書く
                     case TouchPhase.Stationary:
-                        // 指が画面に触れているが動いてはいない時に行いたい処理をここに書く
+                       
                         break;
+
+                    // 画面から指が離れた時に行いたい処理をここに書く
                     case TouchPhase.Ended:
-                        // 画面から指が離れた時に行いたい処理をここに書く
+
+
                         //離れたほうの指だけを、初期値にもどしたい。
                         //離れたほうの指を判断したい。
                         if (_fingerId1 == FI)//_fingerId1の中身がFIと同じであるなら、初期化していい
                         {
                             _fingerId1 = -1;//初期化する
+
+                            
+
                         } else if (_fingerId2 == FI)
                         {
                             _fingerId2 = -1;
                         }
+
+
+                        //フリッパーを動かす
+                        if ((_fingerId1 == -1) && (tag == "RightFripperTag"))
+                        {
+                            SetAngle(this.defaultAngle);
+
+                        }
+                        if ((_fingerId2 == -1) && (tag == "RighttFripperTag"))
+                        {
+                            SetAngle(this.defaultAngle);
+
+                        }
+
+                        if ((_fingerId1 == -1) && (tag == "LeftFripperTag"))
+                        {
+                            SetAngle(this.defaultAngle);
+
+                        }
+                        if ((_fingerId2 == -1) && (tag == "LeftFripperTag"))
+                        {
+                            SetAngle(this.defaultAngle);
+
+                        }
+
+
+
                         //今回の書き方は、2本だからOKで、3本以上だと詰む
+
+
+
+
+
+
                         break;
+
+                    // システムがタッチの追跡をキャンセルした時に行いたい処理をここに書く
                     case TouchPhase.Canceled:
-                        // システムがタッチの追跡をキャンセルした時に行いたい処理をここに書く
+                        
                         break;
                     
                         

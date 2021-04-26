@@ -26,8 +26,12 @@ public class FripperController : MonoBehaviour
     void Update()
     {
         //左矢印キー、Aキーを押した時左フリッパーを動かす
+        //「tag」というのには、この.csをアタッチしているオブジェクトのタグ名が入っている。
+        //なので左フリッパーがアタッチされている方のこの.csは、このifだけがtrueになる事に。
         if((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && tag == "LeftFripperTag")
         {
+            //このthisというのが恐らくHingeJointで取得したもの。
+            //意味として、この.csがアタッチされているオブジェクトの事を指しているはず。
             SetAngle(this.flickAngle);
         }
         //右矢印キー、Dキーを押した時右フリッパーを動かす
